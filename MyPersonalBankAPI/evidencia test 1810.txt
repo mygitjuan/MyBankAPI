@@ -1,0 +1,85 @@
+CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver nuestra lista de clientes para tener una vision general de los mismos."
+-----------------------------
+* Escenario 1: Consulta lista de clientes (Happy path)
+	DADO: un usuario ha accedido al sistema.
+	CUANDO: quiere ver la lista de clientes.
+	ENTONCES: el usuario deberia ver la lista de clientes con la siguientes:
+		- Nombre
+ 	 - Id Cliente
+
+* Escenario 2: Consulta lista de clientes (Happy path)
+	DADO: un usuario ha accedido al sistema.
+	CUANDO: quiere ver detalles de un cliente que existe en la lista.
+	ENTONCES: el usuario visualiza la informacion del cliente introducido.
+  
+* Escenario 3: Consulta lista de clientes (NO OK)
+	DADO: un usuario ha accedido al sistema.
+	CUANDO: quiere ver detalles de un cliente que no esta en la lista.
+	ENTONCES: el usuario visualiza un mensaje informando que no existe el cliente.
+
+* Escenario 4: Consulta lista de clientes (NO OK)
+	DADO: un usuario ha accedido al sistema.
+	CUANDO: quiere ver detalles de un cliente pasando valores nulos.
+	ENTONCES: el usuario es redirigido al menu principal.
+
+
+
+
+(10) 
+
+
+
+
+evidencia test 
+clients list
+
+
+
+Lista de clientes:
+───────────────────────────────────
+(1) Juan Juanez 1
+(2) Luisa Perez 2
+(3) Servicios Informatico SL 3
+
+
+clients 1
+Detalle de cliente: 1
+───────────────────────────────────
+Personal{dni='12345678J'} Cliente{id=1, nombre='Juan Juanez', email='jj@j.com', direccion='Calle JJ 1', alta=2023-10-18, activo=true, moroso=false, cuentas=[Cuenta{id=1, fechaCreacion=2023-10-18, saldo=100.0, transacciones=null, interes=1.1, comision=0.2}, Cuenta{id=4, fechaCreacion=2023-10-18, saldo=300.0, transacciones=null, interes=1.1, comision=0.2}], prestamos=[Prestamo{id=1, fechaConcesion=2023-10-18, monto=1000.0, saldo=1000.0, pagos=null, moras=null, interes=4, interesMora=2, moroso=false, liquidado=false}]}
+
+clients 4
+Detalle de cliente: 4
+───────────────────────────────────
+Cliente NO encontrado 😞! 
+Code: NONEXISTINGCLIENT
+
+
+clients 
+╔════════════════════════╗
+║  MY PERSONAL BANK API  ║
+╚════════════════════════╝
+⚠ LAS OPCIONES DEL PROGRAMA SON LAS SIGUIENTES: ⚠
+
+CLIENTES:
+clients list
+clients {uid}
+clients add {personal/empresa} {nombre} {email} {direccion} {fechaAlta (yyyy-mm-dd)} {dni/nif} {unidadesNegocio (opcional)}
+clients remove {uid}
+clients update {uid} {nombre} {email} {direccion} {fechaAlta (yyyy-mm-dd)} {activo} {moroso} {dni/nif} {unidadesNegocio (opcional)}
+
+CUENTAS:
+clients {uid} accounts
+clients {uid} accounts {aid}
+clients {uid} accounts add {ahorro/corriente} {fechaCreacion} {saldo} {interes} {comision}
+clients {uid} accounts remove {aid}
+clients {uid} accounts update {aid} {fechaCreacion} {saldo} {interes} {comision}
+
+PRÉSTAMOS:
+clients {uid} loans
+clients {uid} loans {lid}
+clients {uid} loans add {fechaConcesion (yyyy-mm-dd)} {monto} {interes} {interesMora}
+clients {uid} loans remove {lid}
+clients {uid} loans update {lid} {fechaConcesion (yyyy-mm-dd)} {monto} {interes} {interesMora}
+
+EVALUAR PRÉSTAMO:
+clients {uid} loan-evaluation {cantidad > 0}
