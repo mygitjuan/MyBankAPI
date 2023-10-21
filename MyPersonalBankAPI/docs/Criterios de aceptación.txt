@@ -12,6 +12,9 @@ CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver nuest
 	CUANDO: quiere ver la lista de clientes, pero utiliza comandos o parámetros incorrectos.
 	ENTONCES: el usuario deberia ver obtener una lista de clientes vacía
 
+CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver el detalle de un clientes para entender su perfil."
+-----------------------------
+
 * Escenario 3: Consulta lista de clientes (Happy path)
 	DADO: un usuario ha accedido al sistema.
 	CUANDO: quiere ver detalles de un cliente que existe en la lista.
