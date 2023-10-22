@@ -48,6 +48,10 @@ public abstract class Cliente {
     }
 
     protected boolean validarComun() {
+        /*System.out.println("validarNombre():"+validarNombre());
+        System.out.println("validarEmail():"+validarEmail());
+        System.out.println("validarDireccion():"+validarDireccion() );
+        System.out.println("validarAlta()"+validarAlta());*/
         return validarNombre() &&
                 validarEmail() &&
                 validarDireccion() &&

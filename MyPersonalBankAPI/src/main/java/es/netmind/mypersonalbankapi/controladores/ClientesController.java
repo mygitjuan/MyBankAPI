@@ -93,9 +93,12 @@ public class ClientesController {
 
         try {
             Cliente cl = clientesRepo.getClientById(uid);
+
             System.out.println("cl.getClass():" + cl.getClass() + " " + cl);
             ClientesUtils.updateClientFromArgs(cl, args);
+
             clientesRepo.updateClient(cl);
+
             System.out.println("Cliente actualizado 🙂!!");
             System.out.println(cl);
             mostrarLista();

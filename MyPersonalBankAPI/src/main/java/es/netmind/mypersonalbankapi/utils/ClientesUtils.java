@@ -57,7 +57,7 @@ public class ClientesUtils {
         if (args[4] != null) cliente.setActivo(Boolean.valueOf(args[4]));
         if (args[5] != null) cliente.setMoroso(Boolean.valueOf(args[5]));
 
-        if (className.contains("modelos.clientes.personal")) {
+        if (className.contains("modelos.clientes.Personal")) {
             Personal per = (Personal) cliente;
             if (args[6] != null) per.setDni(args[6]);
 

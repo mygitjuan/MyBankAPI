@@ -13,6 +13,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +34,11 @@ public class MainTest {
     private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
     int id_num = 0;
     String id_txt = "";
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+    private final PrintStream originalErr = System.err;
+
 
     @BeforeEach
     public void definicionesPrevias() {
@@ -313,27 +322,29 @@ public class MainTest {
 @DisplayName("Escenario 7: Como usuario del sistema, quiero poder modificar los datos de un cliente " +
         "para mantenerlos actualizados.")
 @ParameterizedTest
-@ValueSource(strings = {"clients,update,1,personal,Juan Juanez Juan,juanj@j.com,Calle Juan J 1,2023-10-22",
-        "clients,update,2,personal,Luisa Perez Luisa,lpl@l.com,Calle Luisa P 2,2023-10-22",
-        "clients,update,3,empresa,Los Servicios Informáticos SL,lsi@s.com,Calle Los SI 3,2023-10-22"})
+@ValueSource(strings = {"clients,update,1,Juan Juanez Juan,juanj@j.com,Calle Juan J 1,2023-10-22,true,false,12345678J",
+                        "clients,update,2,Luisa Perez Luisa,lpl@l.com,Calle Luisa P 2,2023-10-22,true,false,12345678L",
+                        "clients,update,3,Los ServiciosInformáticos SL," +
+                                "lsi@s.com,Calle Los SI 3,2023-10-22,true,false,J12345678"})
 public void modificarNuevosClientes(String argu)
         throws Exception {
     //GIVEN
-    String nombre = "";
-    String email = "";
-    String dir = "";
-    String dni_cif = "";
-    int uid = 0;
+
+    int uid = -1;
 
     String[] args = argu.split(",");
     int argsLength = args.length;
     String arg1 = args[1].toLowerCase();
     int arg_uid = Integer.valueOf(args[2]);
-    String arg_nombre = args[5];
-    String arg_email = args[5];
-    String arg_dir = args[6];
+    String arg_nombre = args[3];
+    String arg_email = args[4];
+    String arg_dir = args[5];
+    String arg_alta = args[6];
 
-    System.out.println("Escenario 7:"+argu);
+    String arg_dni_cif = args[9];
+
+    System.out.println("\nEscenario 7: "+args[0]+"; "+args[1]+"; "+args[2]+"; "+args[3]+"; "+args[4]+"; "+args [5]+"; "+
+                                       args[6]+"; "+args[7]+"; "+args[8]+"; "+args[9]    );
 
     //WHEN
     //Añadimos Persona
@@ -345,25 +356,101 @@ public void modificarNuevosClientes(String argu)
     //Comprobamos: extraemos repo y lo comparamos con los parámetros dde entrada
     lista_clientes_esperada =clientesRepo.getAll();
 
-
     for (Cliente c : lista_clientes_esperada) {
 
-        nombre = c.getNombre();
-        email = c.getEmail();
-        dir = c.getDireccion();
+        String nombre = c.getNombre();
+        String email = c.getEmail();
+        String dir = c.getDireccion();
+        LocalDate alta = c.getAlta();
+        String alta_str =  alta.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String className = c.getClass().getName();
+        String dni_cif = null;
+
+        if (className.contains("modelos.clientes.Personal")) {
+            Personal p = (Personal) c;
+            dni_cif = p.getDni();
+        } else {
+            Empresa e = (Empresa) c;
+            dni_cif = e.getCif();
+        }
+
+        System.out.println("\nParámetro: "+nombre+"; "+ email+"; " + dir+"; " + alta_str+"; " + dni_cif);
+        System.out.println("Grabada: "+arg_nombre+"; " + arg_email+"; " + arg_dir+"; " + arg_alta+"; " +arg_dni_cif);
 
         if (nombre.equals(arg_nombre) &&
-                email.equals(arg_email) &&
-                dir.equals(arg_dir)) {
+            email.equals(arg_email) &&
+            dir.equals(arg_dir) &&
+            alta_str.equals(arg_alta) &&
+            dni_cif.equals(arg_dni_cif)) {
+
             uid = c.getId();
             break;
+
         }
     }
 
+    clientesRepo.getClientById(arg_uid);
+    System.out.println("Cliente id esperado:"+arg_uid);
+    System.out.println("Cliente id real:"+uid);
     //THEN
-    // Después de insertar a la persona, se busca s el NIF/CIF existen en el repositorio
+    // Después de insertar a la persona
     assertThat(arg_uid,is(uid));
 }
 
+    @DisplayName("Escenario 8: Como usuario del sistema, quiero poder modificar los datos de un cliente " +
+            "para mantenerlos actualizados.")
+    @ParameterizedTest
+    @ValueSource(strings = {"clients,update,1,Juan Juanez Juan,juanj@j.com,Calle Juan J 1,2024-10-22,true,false,12345678J",
+            "clients,update,2,Luisa Perez Luisa,lpl@l.com,Calle Luisa P 2,2024-10-22,true,false,12345678L",
+            "clients,update,3,Los ServiciosInformáticos SL," +
+                    "lsi@s.com,Calle Los SI 3,2024-10-22,true,false,J12345678"})
+    public void modificarNuevosClientesFechaInvalida(String argu)
+            throws Exception {
+        //GIVEN
 
+        int uid = -1;
+        int uid_esperado = -1;
+
+        String[] args = argu.split(",");
+        int argsLength = args.length;
+        String arg1 = args[1].toLowerCase();
+        int arg_uid = Integer.valueOf(args[2]);
+        String arg_nombre = args[3];
+        String arg_email = args[4];
+        String arg_dir = args[5];
+        String arg_alta = args[6];
+
+        String arg_dni_cif = args[9];
+
+        System.out.println("\nEscenario 8: "+args[0]+"; "+args[1]+"; "+args[2]+"; "+args[3]+"; "+args[4]+"; "+args [5]+"; "+
+                args[6]+"; "+args[7]+"; "+args[8]+"; "+args[9]    );
+
+
+        //WHEN
+        //Añadimos Persona
+
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+
+        if (arg1.equals("update"))
+            //THEN
+            ClientesController.actualizar(Integer.valueOf(args[2]), Arrays.copyOfRange(args, 3, argsLength));
+
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+
+
+        /*System.err.print("hello again");*/
+        /*assertThat("Code: INVALIDCLIENT", is(errContent.toString()));*/
+        String code_INVALIDCLIENT = "";
+        final String code_esperado = "INVALIDCLIENT";
+
+        if (outContent.toString().contains("Code: INVALIDCLIENT"))
+            code_INVALIDCLIENT = "INVALIDCLIENT";
+
+        System.out.println("Mensaje devuelto:" + outContent.toString());
+
+        assertThat(code_esperado, is(code_INVALIDCLIENT));
+
+    }
 }

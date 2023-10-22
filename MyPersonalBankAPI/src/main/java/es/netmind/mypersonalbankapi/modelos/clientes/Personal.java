@@ -21,6 +21,8 @@ public class Personal extends Cliente {
 
         @Override
     public boolean validar() throws Exception{
+           /* System.out.println("validarComun():" + validarComun());*/
+           /* System.out.println("validarDNI():" + validarDNI(this.dni));*/
         return validarComun() && validarDNI(this.dni);
     }
 
