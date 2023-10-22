@@ -1,20 +1,18 @@
 package es.netmind.mypersonalbankapi;
 
 import es.netmind.mypersonalbankapi.controladores.ClientesController;
-import es.netmind.mypersonalbankapi.controladores.CuentasController;
 import es.netmind.mypersonalbankapi.exceptions.ClienteException;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
 import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
 import es.netmind.mypersonalbankapi.persistencia.ClientesInMemoryRepo;
 import es.netmind.mypersonalbankapi.persistencia.IClientesRepo;
+import es.netmind.mypersonalbankapi.util.TestMostarInstruccionesMain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,15 +47,33 @@ public class MainTest {
         // List<Cliente> lista_clientes_real =null;
         // List<Cliente> lista_clientes_esperada =clientesRepo.getAll();
 
-        System.out.println("Escenario 1:"+texto);
+        String[] args = texto.split(" ");
+        String arg0 = args[0].toLowerCase();
+        String arg1 = args[1].toLowerCase();
+        String arg2 = null;
+
+        System.out.println("Escenario 1:"+args[0]+ " " +args[1]);
 
         //WHEN
-        if (texto.equals("clients list")) {
-            //THEN
-            lista_clientes_real = clientesRepo.getAll();
+        if (!arg0.equals("clients")) {
+            System.out.println("Llamada a mostrarInstrucciones()");
+            TestMostarInstruccionesMain.mostrarInstrucciones();
+        } else if (arg2 != null && arg2.equals("accounts")) {
+            System.out.println("Llamada a procesarArgumentosCuentas(args)");
+        } else if (arg2 != null && arg2.equals("loans")) {
+            System.out.println("Llamada a procesarArgumentosPrestamos(args)");
+        } else if (arg2 != null && arg2.equals("loan-evaluation")) {
+            System.out.println("Llamada a procesarArgumentosEvaluacionPrestamo(args)");
+        } else {
 
+            if (arg1.equals("list")) {
+                //THEN
+                ClientesController.mostrarLista();
+                lista_clientes_real = clientesRepo.getAll();
+            }
+
+            assertThat(lista_clientes_esperada, is(lista_clientes_real));
         }
-        assertThat(lista_clientes_esperada,is(lista_clientes_real));
     }
 
     //Escenario 2
@@ -69,13 +85,32 @@ public class MainTest {
         // List<Cliente> lista_clientes_real =null;
         List <Cliente> lista_clientes_nula = null;
 
-        System.out.println("Escenario 2:"+texto);
+        String[] args = texto.split(" ");
+        String arg0 = args[0].toLowerCase();
+        String arg1 = args[1].toLowerCase();
+        String arg2 = args[2].toLowerCase();
+
+        System.out.println("Escenario 2:" + args[0] + " " + args[1] + " " +args[2]);
 
         //WHEN
-        if (texto.equals("clients list")) {
-            //THEN
-            lista_clientes_real = clientesRepo.getAll();
+        if (!arg0.equals("clients")) {
+            System.out.println("Llamada a mostrarInstrucciones()");
+            TestMostarInstruccionesMain.mostrarInstrucciones();
+        } else if (arg2 != null && arg2.equals("accounts")) {
+            System.out.println("Llamada a procesarArgumentosCuentas(args)");
+        } else if (arg2 != null && arg2.equals("loans")) {
+            System.out.println("Llamada a procesarArgumentosPrestamos(args)");
+        } else if (arg2 != null && arg2.equals("loan-evaluation")) {
+            System.out.println("Llamada a procesarArgumentosEvaluacionPrestamo(args)");
+        } else {
 
+            if (arg1.equals("list")) {
+                //THEN
+                ClientesController.mostrarLista();
+                lista_clientes_real = clientesRepo.getAll();
+            }
+
+            assertThat(lista_clientes_esperada, is(lista_clientes_real));
         }
 
         assertThat(lista_clientes_nula,is(lista_clientes_real));
@@ -101,6 +136,7 @@ public class MainTest {
         System.out.println("Escenario 3:"+texto);
 
         //WHEN
+        ClientesController.mostrarDetalle(Integer.valueOf(id_txt));
         cliente_real = clientesRepo.getClientById(id_num);
 
         for (Cliente c : lista_clientes_esperada) {
@@ -110,6 +146,9 @@ public class MainTest {
             }
         }
 
+        System.out.println("Cliente esperado:" +cliente_esperado);
+        System.out.println("Cliente real:" +cliente_real);
+
         //THEN
         assertThat(cliente_esperado,is(cliente_real));
     }
@@ -117,7 +156,7 @@ public class MainTest {
     //Escenario 4
     @DisplayName("Escenario 4: Usuario accede al sistema con cliente id inexistente.")
     @ParameterizedTest
-    @ValueSource(strings = {"clients 999"})
+    @ValueSource(strings = {"clients 9"})
     public void consultaListaCLientesNOK(String texto) throws Exception {
 
         //GIVEN
@@ -130,12 +169,16 @@ public class MainTest {
         int finalId_num = id_num;
 
         //THEN
+        ClientesController.mostrarDetalle(Integer.valueOf(id_txt));
         assertThrows(ClienteException.class, () -> {
             //WHEN
+            //Como ClientesController.mostrarDetalle devuelve void, vamos a ejecutar su comando interno
             cliente_real = clientesRepo.getClientById(finalId_num);
         });
     }
 
+    //CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder registrar nuevos clientes
+    // para poder incrementar nuestra base de datos."
     //Escenario 5
     @DisplayName("Escenario 5: registrar el detalle de nuevos clientes en base de datos.")
     @ParameterizedTest
@@ -162,9 +205,12 @@ public class MainTest {
         System.out.println("Escenario 5:"+argu);
 
         //WHEN
+        //Añadimos Persona
         if (arg1.equals("add"))
+            //THEN
             ClientesController.add(Arrays.copyOfRange(args, 2, argsLength));
 
+        //Comprobamos: extraemos repo y lo comparamos con los parámetros dde entrada
         lista_clientes_esperada =clientesRepo.getAll();
 
 
@@ -222,7 +268,7 @@ public class MainTest {
         String arg_dir = args[5];
         String arg_dni_cif = args[7];
 
-        System.out.println("Escenario 5:"+argu);
+        System.out.println("Escenario 6:"+argu);
 
         //WHEN
         if (arg1.equals("add"))
@@ -262,7 +308,62 @@ public class MainTest {
         //Después de fallar el añadir de la persona, se busca el NIF/CIF para comprobar que no existen en el repositorio
         assertThat(dni_cif_noEncontrado,is(dni_cif));
     }
+//CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder registrar nuevos clientes
+// para poder incrementar nuestra base de datos."
+@DisplayName("Escenario 7: Como usuario del sistema, quiero poder modificar los datos de un cliente " +
+        "para mantenerlos actualizados.")
+@ParameterizedTest
+@ValueSource(strings = {"clients,update,1,personal,Juan Juanez Juan,juanj@j.com,Calle Juan J 1,2023-10-22",
+        "clients,update,2,personal,Luisa Perez Luisa,lpl@l.com,Calle Luisa P 2,2023-10-22",
+        "clients,update,3,empresa,Los Servicios Informáticos SL,lsi@s.com,Calle Los SI 3,2023-10-22"})
+public void modificarNuevosClientes(String argu)
+        throws Exception {
+    //GIVEN
+    String nombre = "";
+    String email = "";
+    String dir = "";
+    String dni_cif = "";
+    int uid = 0;
 
+    String[] args = argu.split(",");
+    int argsLength = args.length;
+    String arg1 = args[1].toLowerCase();
+    int arg_uid = Integer.valueOf(args[2]);
+    String arg_nombre = args[5];
+    String arg_email = args[5];
+    String arg_dir = args[6];
+
+    System.out.println("Escenario 7:"+argu);
+
+    //WHEN
+    //Añadimos Persona
+    if (arg1.equals("update"))
+        //THEN
+        ClientesController.actualizar(Integer.valueOf(args[2]), Arrays.copyOfRange(args, 3, argsLength));
+
+
+    //Comprobamos: extraemos repo y lo comparamos con los parámetros dde entrada
+    lista_clientes_esperada =clientesRepo.getAll();
+
+
+    for (Cliente c : lista_clientes_esperada) {
+
+        nombre = c.getNombre();
+        email = c.getEmail();
+        dir = c.getDireccion();
+
+        if (nombre.equals(arg_nombre) &&
+                email.equals(arg_email) &&
+                dir.equals(arg_dir)) {
+            uid = c.getId();
+            break;
+        }
+    }
+
+    //THEN
+    // Después de insertar a la persona, se busca s el NIF/CIF existen en el repositorio
+    assertThat(arg_uid,is(uid));
+}
 
 
 }

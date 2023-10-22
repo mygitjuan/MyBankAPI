@@ -31,12 +31,25 @@ CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder registrar
 * Escenario 5: Registrar nuevos clientes (Happy path)
 	DADO: un usuario ha accedido al sistema.
 	CUANDO: quiere registrar el detalle de nuevos clientes en base de datos.
-	ENTONCES: el registra un nuevo cliente el cliente.
+	ENTONCES: registra un nuevo cliente.
   
 * Escenario 6: Registrar nuevos clientes (NO OK)
 	DADO: un usuario ha accedido al sistema.
 	CUANDO: quiere registrar el detalle de nuevos clientes en base de datos.
 	ENTONCES: intenta registrar un nuevo cliente el cliente, pero el nombre es inválido por ser menor a 3 carácteres.
+
+CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder modificar los datos de un cliente para mantenerlos actualizados."
+-----------------------------
+* Escenario : Modificar los datos de un cliente (Happy path)
+	DADO: un usuario ha accedido al sistema.
+	CUANDO: quiere modificar el detalle de clientes en base de datos.
+	ENTONCES: modifica un cliente.
+  
+* Escenario : Modificar los datos de un cliente (NO OK)
+	DADO: un usuario ha accedido al sistema.
+	CUANDO: quiere modificar el detalle de clientes en base de datos pero el email es inválido.
+	ENTONCES: se muestra un aviso de error y no se permite la modificación
+
 
 CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver la lista de préstamos de un cliente para entender su estado de deuda."
 -----------------------------
@@ -89,17 +102,6 @@ CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver el de
 	CUANDO: 
 	ENTONCES: 
 
-CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder modificar los datos de un cliente para mantenerlos actualizados."
------------------------------
-* Escenario : Modificar los datos de un cliente (Happy path)
-	DADO: 
-	CUANDO: 
-	ENTONCES: 
-  
-* Escenario : Modificar los datos de un cliente (NO OK)
-	DADO: 
-	CUANDO: 
-	ENTONCES: 
 
 CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder evaluar una solicitud de préstamo de cliente, para decidir si lo concedemos o no."
 -----------------------------
