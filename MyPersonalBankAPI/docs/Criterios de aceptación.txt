@@ -47,7 +47,7 @@ CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder modificar
   
 * Escenario : Modificar los datos de un cliente (NO OK)
 	DADO: un usuario ha accedido al sistema.
-	CUANDO: quiere modificar el detalle de clientes en base de datos pero el email es inválido.
+	CUANDO: quiere modificar el detalle de clientes en base de datos pero la fecha es inválida por no ser hoy.
 	ENTONCES: se muestra un aviso de error y no se permite la modificación
 
 
