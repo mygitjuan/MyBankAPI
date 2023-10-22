@@ -40,15 +40,27 @@ CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder registrar
 
 CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder modificar los datos de un cliente para mantenerlos actualizados."
 -----------------------------
-* Escenario : Modificar los datos de un cliente (Happy path)
+* Escenario 7: Modificar los datos de un cliente (Happy path)
 	DADO: un usuario ha accedido al sistema.
 	CUANDO: quiere modificar el detalle de clientes en base de datos.
 	ENTONCES: modifica un cliente.
   
-* Escenario : Modificar los datos de un cliente (NO OK)
+* Escenario 8: Modificar los datos de un cliente (NO OK)
 	DADO: un usuario ha accedido al sistema.
 	CUANDO: quiere modificar el detalle de clientes en base de datos pero la fecha es inválida por no ser hoy.
 	ENTONCES: se muestra un aviso de error y no se permite la modificación
+
+CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder evaluar una solicitud de préstamo de cliente, para decidir si lo concedemos o no."
+-----------------------------
+* Escenario 9: Evaluar una solicitud de préstamo de cliente (Happy path)
+	DADO: un usuario ha accedido al sistema.
+	CUANDO: evalua una solicitud de préstamo de cliente.
+	ENTONCES: decidir si lo concedemos.
+  
+* Escenario 10: Evaluar una solicitud de préstamo de cliente (NO OK)
+	DADO: un usuario ha accedido al sistema.
+	CUANDO: evalua una solicitud de préstamo de cliente.
+	ENTONCES: decidir no lo concedemos por saldo insuficiente en cuenta.
 
 
 CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver la lista de préstamos de un cliente para entender su estado de deuda."
@@ -103,14 +115,3 @@ CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver el de
 	ENTONCES: 
 
 
-CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder evaluar una solicitud de préstamo de cliente, para decidir si lo concedemos o no."
------------------------------
-* Escenario : Evaluar una solicitud de préstamo de cliente (Happy path)
-	DADO: 
-	CUANDO: 
-	ENTONCES: 
-  
-* Escenario : Evaluar una solicitud de préstamo de cliente (NO OK)
-	DADO: 
-	CUANDO: 
-	ENTONCES: 

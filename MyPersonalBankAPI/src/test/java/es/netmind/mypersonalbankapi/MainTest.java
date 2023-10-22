@@ -38,7 +38,7 @@ public class MainTest {
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
-
+    String code_real = "";
 
     @BeforeEach
     public void definicionesPrevias() {
@@ -353,7 +353,7 @@ public void modificarNuevosClientes(String argu)
         ClientesController.actualizar(Integer.valueOf(args[2]), Arrays.copyOfRange(args, 3, argsLength));
 
 
-    //Comprobamos: extraemos repo y lo comparamos con los parámetros dde entrada
+    //Comprobamos: extraemos repo y lo comparamos con los parámetros de entrada
     lista_clientes_esperada =clientesRepo.getAll();
 
     for (Cliente c : lista_clientes_esperada) {
@@ -398,7 +398,7 @@ public void modificarNuevosClientes(String argu)
 }
 
     @DisplayName("Escenario 8: Como usuario del sistema, quiero poder modificar los datos de un cliente " +
-            "para mantenerlos actualizados.")
+            "para mantenerlos actualizados. Pero la fecha de alta es invalida")
     @ParameterizedTest
     @ValueSource(strings = {"clients,update,1,Juan Juanez Juan,juanj@j.com,Calle Juan J 1,2024-10-22,true,false,12345678J",
             "clients,update,2,Luisa Perez Luisa,lpl@l.com,Calle Luisa P 2,2024-10-22,true,false,12345678L",
@@ -408,30 +408,18 @@ public void modificarNuevosClientes(String argu)
             throws Exception {
         //GIVEN
 
-        int uid = -1;
-        int uid_esperado = -1;
-
         String[] args = argu.split(",");
         int argsLength = args.length;
         String arg1 = args[1].toLowerCase();
-        int arg_uid = Integer.valueOf(args[2]);
-        String arg_nombre = args[3];
-        String arg_email = args[4];
-        String arg_dir = args[5];
-        String arg_alta = args[6];
 
-        String arg_dni_cif = args[9];
-
-        System.out.println("\nEscenario 8: "+args[0]+"; "+args[1]+"; "+args[2]+"; "+args[3]+"; "+args[4]+"; "+args [5]+"; "+
-                args[6]+"; "+args[7]+"; "+args[8]+"; "+args[9]    );
+        System.out.println("\nEscenario 8: "+args[0]+"; "+args[1]+"; "+args[2]+"; "+args[3]+"; "+args[4]+"; "
+                +args [5]+"; "+ args[6]+"; "+args[7]+"; "+args[8]+"; "+args[9]    );
 
 
-        //WHEN
-        //Añadimos Persona
 
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
-
+        //WHEN
         if (arg1.equals("update"))
             //THEN
             ClientesController.actualizar(Integer.valueOf(args[2]), Arrays.copyOfRange(args, 3, argsLength));
@@ -439,9 +427,7 @@ public void modificarNuevosClientes(String argu)
         System.setOut(originalOut);
         System.setErr(originalErr);
 
-
-        /*System.err.print("hello again");*/
-        /*assertThat("Code: INVALIDCLIENT", is(errContent.toString()));*/
+        //Como el método devuelve VOID mandamos el mensaje de salida a un String y verificamos el código esperado.
         String code_INVALIDCLIENT = "";
         final String code_esperado = "INVALIDCLIENT";
 
@@ -451,6 +437,85 @@ public void modificarNuevosClientes(String argu)
         System.out.println("Mensaje devuelto:" + outContent.toString());
 
         assertThat(code_esperado, is(code_INVALIDCLIENT));
+
+    }
+
+    //CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder evaluar una
+    // solicitud de préstamo de cliente, para decidir si lo concedemos o no."
+    @DisplayName("Escenario 9: Como usuario del sistema, quiero poder modificar los datos de un cliente " +
+            "para mantenerlos actualizados.")
+    @ParameterizedTest
+    @ValueSource(strings = {"clients 1 loan-evaluation 100",
+                            "clients 2 loan-evaluation 1000",
+                            "clients 3 loan-evaluation 100"})
+    public void evaluacionPrestamoValidoConFondos(String argu)
+            throws Exception {
+        //GIVEN
+
+        String[] args = argu.split(" ");
+        System.out.println("\nEscenario 9: "+args[0]+"; "+args[1]+"; "+args[2]+"; "+args[3]);
+
+        final String code_esperado = "SÍ se puede conceder";
+        int argsLength = args.length;
+        int uid = Integer.valueOf(args[1]);
+        Double cantidad = argsLength >= 4 ? Double.valueOf(args[3]) : 0;
+
+        //WHEN
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+
+        if (cantidad > 0) {
+            ClientesController.evaluarPrestamo(uid, cantidad);
+        } else TestMostarInstruccionesMain.mostrarInstrucciones();
+
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+
+        //Como el método devuelve VOID mandamos el mensaje de salida a un String y verificamos el código esperado.
+        if (outContent.toString().contains(code_esperado))
+            code_real = code_esperado;
+
+        System.out.println("Mensaje devuelto:" + outContent.toString());
+
+        assertThat(code_esperado, is(code_real));
+
+    }
+    @DisplayName("Escenario 10: Como usuario del sistema, quiero poder modificar los datos de un cliente " +
+            "para mantenerlos actualizados.")
+    @ParameterizedTest
+    @ValueSource(strings = {"clients 1 loan-evaluation 1000",
+            "clients 2 loan-evaluation 100000",
+            "clients 3 loan-evaluation 1100"})
+    public void evaluacionPrestamoSinFondos(String argu)
+            throws Exception {
+        //GIVEN
+
+        String[] args = argu.split(" ");
+        System.out.println("\nEscenario 9: "+args[0]+"; "+args[1]+"; "+args[2]+"; "+args[3]);
+
+        final String code_esperado = "Saldo insuficiente";
+        int argsLength = args.length;
+        int uid = Integer.valueOf(args[1]);
+        Double cantidad = argsLength >= 4 ? Double.valueOf(args[3]) : 0;
+
+        //WHEN
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+
+        if (cantidad > 0) {
+            ClientesController.evaluarPrestamo(uid, cantidad);
+        } else TestMostarInstruccionesMain.mostrarInstrucciones();
+
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+
+        //Como el método devuelve VOID mandamos el mensaje de salida a un String y verificamos el código esperado.
+        if (outContent.toString().contains(code_esperado))
+            code_real = code_esperado;
+
+        System.out.println("Mensaje devuelto:" + outContent.toString());
+
+        assertThat(code_esperado, is(code_real));
 
     }
 }
