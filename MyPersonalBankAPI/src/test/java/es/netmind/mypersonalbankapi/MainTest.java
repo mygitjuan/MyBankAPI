@@ -1,14 +1,21 @@
 package es.netmind.mypersonalbankapi;
 
+import es.netmind.mypersonalbankapi.controladores.ClientesController;
+import es.netmind.mypersonalbankapi.controladores.CuentasController;
 import es.netmind.mypersonalbankapi.exceptions.ClienteException;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
+import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
+import es.netmind.mypersonalbankapi.modelos.clientes.Personal;
 import es.netmind.mypersonalbankapi.persistencia.ClientesInMemoryRepo;
 import es.netmind.mypersonalbankapi.persistencia.IClientesRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -31,7 +38,8 @@ public class MainTest {
         lista_clientes_esperada =clientesRepo.getAll();
     }
 
-    //CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver nuestra lista de clientes para tener una vision general de los mismos."
+    //CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver nuestra lista de clientes
+    // para tener una vision general de los mismos."
     //Escenario 1
     @DisplayName("Escenario 1: Usuario accede al sistema y ve lista de clientes.")
     @ParameterizedTest
@@ -61,7 +69,7 @@ public class MainTest {
         // List<Cliente> lista_clientes_real =null;
         List <Cliente> lista_clientes_nula = null;
 
-        System.out.println("Escenario 4:"+texto);
+        System.out.println("Escenario 2:"+texto);
 
         //WHEN
         if (texto.equals("clients list")) {
@@ -74,7 +82,8 @@ public class MainTest {
 
     }
 
-    //CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver el detalle de un clientes para entender su perfil."
+    //CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver el detalle de un clientes
+    // para entender su perfil."
 
     //Escenario 3
     @DisplayName("Escenario 3: Usuario accede al sistema consulta un cliente específico.")
@@ -89,7 +98,7 @@ public class MainTest {
         id_txt = texto.substring(8,9);
         id_num = Integer.valueOf(id_txt);
 
-        System.out.println("Escenario 2:"+texto);
+        System.out.println("Escenario 3:"+texto);
 
         //WHEN
         cliente_real = clientesRepo.getClientById(id_num);
@@ -108,7 +117,7 @@ public class MainTest {
     //Escenario 4
     @DisplayName("Escenario 4: Usuario accede al sistema con cliente id inexistente.")
     @ParameterizedTest
-    @ValueSource(strings = {"clients 4"})
+    @ValueSource(strings = {"clients 999"})
     public void consultaListaCLientesNOK(String texto) throws Exception {
 
         //GIVEN
@@ -116,7 +125,7 @@ public class MainTest {
         id_txt = texto.substring(8, 9);
         id_num = Integer.valueOf(id_txt);
 
-        System.out.println("Escenario 3:"+texto);
+        System.out.println("Escenario 4:"+texto);
 
         int finalId_num = id_num;
 
@@ -125,6 +134,133 @@ public class MainTest {
             //WHEN
             cliente_real = clientesRepo.getClientById(finalId_num);
         });
+    }
+
+    //Escenario 5
+    @DisplayName("Escenario 5: registrar el detalle de nuevos clientes en base de datos.")
+    @ParameterizedTest
+    @ValueSource(strings = {"clients,add,personal,Pedro,pedro@gmail.com,Casa de Pedro 1,2023-10-22,30528228Y",
+            "clients,add,empresa,Gaming de Pablo,pablo@gmail.com,Casa de Pablo 1,2023-10-22,A17825340"})
+    public void registrarNuevosClientes(String argu)
+            throws Exception {
+        //GIVEN
+        String nombre = "";
+        String email = "";
+        String dir = "";
+        String dni_cif = "";
+        int uid = 0;
+
+        String[] args = argu.split(",");
+        int argsLength = args.length;
+        String arg1 = args[1].toLowerCase();
+        String arg2 = args[2].toLowerCase();
+        String arg_nombre = args[3];
+        String arg_email = args[4];
+        String arg_dir = args[5];
+        String arg_dni_cif = args[7];
+
+        System.out.println("Escenario 5:"+argu);
+
+        //WHEN
+        if (arg1.equals("add"))
+            ClientesController.add(Arrays.copyOfRange(args, 2, argsLength));
+
+        lista_clientes_esperada =clientesRepo.getAll();
+
+
+            for (Cliente c : lista_clientes_esperada) {
+
+                nombre = c.getNombre();
+                email = c.getEmail();
+                dir = c.getDireccion();
+
+                if (nombre.equals(arg_nombre) &&
+                        email.equals(arg_email) &&
+                        dir.equals(arg_dir)) {
+                    uid = c.getId();
+                    break;
+                }
+            }
+
+            if (arg2.equals("personal")) {
+                    cliente_real = clientesRepo.getClientById(uid);
+                    Personal p = (Personal) cliente_real;
+                    dni_cif = p.getDni();
+            } else {
+                    cliente_real = clientesRepo.getClientById(uid);
+                    Empresa e = (Empresa) cliente_real;
+                    dni_cif = e.getCif();
+            }
+            //THEN
+            // Después de insertar a la persona, se busca s el NIF/CIF existen en el repositorio
+            assertThat(arg_dni_cif,is(dni_cif));
+    }
+
+    //Escenario 6
+    @DisplayName("Escenario 6: intenta registrar un nuevo cliente el cliente, " +
+            "pero el nombre es inválido por ser menor a 3 carácteres")
+    @ParameterizedTest
+    @ValueSource(strings = {"clients,add,personal,Li,li@gmail.com,Casa de Li 1,1980-01-01,30528228Y",
+            "clients,add,empresa,SA,sa@gmail.com,Casa de Pablo 1,1970-01-01,A17825340"})
+    public void registrarNuevosClientesNOK(String argu)
+            throws Exception {
+        //GIVEN
+        String nombre = "";
+        String email = "";
+        String dir = "";
+        String dni_cif = "";
+        String dni_cif_noEncontrado = "No encontrado";
+        int uid = 0;
+        int noEncontrado = -1;
+
+        String[] args = argu.split(",");
+        int argsLength = args.length;
+        String arg1 = args[1].toLowerCase();
+        String arg2 = args[2].toLowerCase();
+        String arg_nombre = args[3];
+        String arg_email = args[4];
+        String arg_dir = args[5];
+        String arg_dni_cif = args[7];
+
+        System.out.println("Escenario 5:"+argu);
+
+        //WHEN
+        if (arg1.equals("add"))
+            ClientesController.add(Arrays.copyOfRange(args, 2, argsLength));
+
+        lista_clientes_esperada =clientesRepo.getAll();
+
+
+        for (Cliente c : lista_clientes_esperada) {
+
+            nombre = c.getNombre();
+            email = c.getEmail();
+            dir = c.getDireccion();
+
+            if (nombre.equals(arg_nombre) &&
+                    email.equals(arg_email) &&
+                    dir.equals(arg_dir)) {
+                uid = c.getId();
+                break;
+            } else uid = noEncontrado;
+        }
+
+        if (uid == noEncontrado)
+            dni_cif = dni_cif_noEncontrado;
+        else {
+            if (arg2.equals("personal")) {
+                cliente_real = clientesRepo.getClientById(uid);
+                Personal p = (Personal) cliente_real;
+                dni_cif = p.getDni();
+            } else {
+                cliente_real = clientesRepo.getClientById(uid);
+                Empresa e = (Empresa) cliente_real;
+                dni_cif = e.getCif();
+            }
+        }
+        //THEN
+        //Después de fallar el añadir de la persona, se busca el NIF/CIF para comprobar que no existen en el repositorio
+        assertThat(dni_cif_noEncontrado,is(dni_cif));
     }
 
 
