@@ -15,12 +15,100 @@ CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver nuest
 CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver el detalle de un clientes para entender su perfil."
 -----------------------------
 
-* Escenario 3: Consulta lista de clientes (Happy path)
+* Escenario 3: Consulta detalle de clientes (Happy path)
 	DADO: un usuario ha accedido al sistema.
 	CUANDO: quiere ver detalles de un cliente que existe en la lista.
 	ENTONCES: el usuario visualiza la informacion del cliente introducido.
   
-* Escenario 4: Consulta lista de clientes (NO OK)
+* Escenario 4: Consulta detalle de clientes (NO OK)
 	DADO: un usuario ha accedido al sistema.
 	CUANDO: quiere ver detalles de un cliente que no esta en la lista.
 	ENTONCES: el usuario visualiza un mensaje informando que no existe el cliente.
+
+
+CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder registrar nuevos clientes para poder incrementar nuestra base de datos."
+-----------------------------
+* Escenario 5: Registrar nuevos clientes (Happy path)
+	DADO: un usuario ha accedido al sistema.
+	CUANDO: quiere registrar el detalle de nuevos clientes en base de datos.
+	ENTONCES: el registra un nuevo cliente el cliente.
+  
+* Escenario 6: Registrar nuevos clientes (NO OK)
+	DADO: un usuario ha accedido al sistema.
+	CUANDO: quiere registrar el detalle de nuevos clientes en base de datos.
+	ENTONCES: intenta registrar un nuevo cliente el cliente, pero el nombre es inválido por ser menor a 3 carácteres.
+
+CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver la lista de préstamos de un cliente para entender su estado de deuda."
+-----------------------------
+* Escenario : Consulta lista de préstamos (Happy path)
+	DADO: 
+	CUANDO: 
+	ENTONCES: 
+  
+* Escenario : Consulta lista de préstamos (NO OK)
+	DADO: 
+	CUANDO: 
+	ENTONCES: 
+
+
+CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver el detalle de un préstamo de un cliente para conocer su estado y evolución."
+-----------------------------
+* Escenario : Consulta detalle de préstamos (Happy path)
+	DADO: 
+	CUANDO: 
+	ENTONCES: 
+  
+* Escenario : Consulta detalle de préstamos  (NO OK)
+	DADO: 
+	CUANDO: 
+	ENTONCES: 
+
+
+CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver la lista de cuentas de un cliente para entender su estado financiero."
+-----------------------------
+* Escenario : Consulta lista de cuentas  (Happy path)
+	DADO: 
+	CUANDO: 
+	ENTONCES: 
+  
+* Escenario : Consulta lista de cuentas (NO OK)
+	DADO: 
+	CUANDO: 
+	ENTONCES: 
+
+
+CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver el detalle de una cuenta de un cliente para conocer su estado contable."
+-----------------------------
+* Escenario : Consulta detalle de cuentas  (Happy path)
+	DADO: 
+	CUANDO: 
+	ENTONCES: 
+  
+* Escenario : Consulta detalle de cuentas (NO OK)
+	DADO: 
+	CUANDO: 
+	ENTONCES: 
+
+CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder modificar los datos de un cliente para mantenerlos actualizados."
+-----------------------------
+* Escenario : Modificar los datos de un cliente (Happy path)
+	DADO: 
+	CUANDO: 
+	ENTONCES: 
+  
+* Escenario : Modificar los datos de un cliente (NO OK)
+	DADO: 
+	CUANDO: 
+	ENTONCES: 
+
+CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder evaluar una solicitud de préstamo de cliente, para decidir si lo concedemos o no."
+-----------------------------
+* Escenario : Evaluar una solicitud de préstamo de cliente (Happy path)
+	DADO: 
+	CUANDO: 
+	ENTONCES: 
+  
+* Escenario : Evaluar una solicitud de préstamo de cliente (NO OK)
+	DADO: 
+	CUANDO: 
+	ENTONCES: 
