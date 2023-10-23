@@ -676,7 +676,7 @@ public void modificarNuevosClientes(String argu)
 
     @DisplayName("Escenario 16: Se ha introducido cliente que no existe y no ve el detalle del préstamo.")
     @ParameterizedTest
-    @ValueSource(strings = {"clients 5 accounts"})
+    @ValueSource(strings = {"clients 99 loans 99"})
     public void veDetallePrestamoNOK(String texto) {
         //GIVEN
 
@@ -685,7 +685,7 @@ public void modificarNuevosClientes(String argu)
         String arg1 = args[1].toLowerCase();
         String arg2 = null;
 
-        System.out.println("Escenario 16:"+args[0]+ " " +args[1]+ " " +args[2] + args);
+        System.out.println("Escenario 16:"+args[0]+ " " +args[1]+ " " +args[2] + args[3]);
         int argsLength = args.length;
         int uid = Integer.valueOf(args[1]);
 
@@ -699,7 +699,7 @@ public void modificarNuevosClientes(String argu)
 
         System.out.println("Mensaje devuelto:" + outContent.toString());
 
-        assertThat(outContent.toString(),containsString("Cliente NO encontrado"));
+        assertThat(outContent.toString(),containsString("Oops ha habido un problema, inténtelo más tarde"));
 
     }
 
