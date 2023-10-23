@@ -77,10 +77,12 @@ public class MainTest {
 
             if (arg1.equals("list")) {
                 //THEN
+
                 ClientesController.mostrarLista();
                 lista_clientes_real = clientesRepo.getAll();
             }
-
+            //queremos revisar que la lista de clientes que muestra por pantalla la función de ClientesController
+            // es la misma que la recuperada antes de ejecutarla
             assertThat(lista_clientes_esperada, is(lista_clientes_real));
         }
     }
