@@ -427,6 +427,9 @@ public void modificarNuevosClientes(String argu)
         System.setOut(originalOut);
         System.setErr(originalErr);
 
+         lista_clientes_esperada =clientesRepo.getAll();
+        System.out.println("AKI"+ lista_clientes_esperada);
+        assertThat(lista_clientes_esperada.get(0).getNombre(),is(not(args[3])));
         //Como el método devuelve VOID mandamos el mensaje de salida a un String y verificamos el código esperado.
         String code_INVALIDCLIENT = "";
         final String code_esperado = "INVALIDCLIENT";
@@ -437,6 +440,7 @@ public void modificarNuevosClientes(String argu)
         System.out.println("Mensaje devuelto:" + outContent.toString());
 
         assertThat(code_esperado, is(code_INVALIDCLIENT));
+
 
     }
 
