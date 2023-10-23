@@ -317,8 +317,8 @@ public class MainTest {
         //Después de fallar el añadir de la persona, se busca el NIF/CIF para comprobar que no existen en el repositorio
         assertThat(dni_cif_noEncontrado,is(dni_cif));
     }
-//CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder registrar nuevos clientes
-// para poder incrementar nuestra base de datos."
+//CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder modificar los
+// datos de un cliente para mantenerlos actualizados."
 @DisplayName("Escenario 7: Como usuario del sistema, quiero poder modificar los datos de un cliente " +
         "para mantenerlos actualizados.")
 @ParameterizedTest
