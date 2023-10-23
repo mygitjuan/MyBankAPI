@@ -65,41 +65,43 @@ CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder evaluar u
 
 CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver la lista de préstamos de un cliente para entender su estado de deuda."
 -----------------------------
-* Escenario : Consulta lista de préstamos (Happy path)
-	DADO: 
-	CUANDO: 
-	ENTONCES: 
+* Escenario 11: Consulta lista de préstamos (Happy path)
+	DADO: un usuario ha accedido al sistema. 
+	CUANDO: quiero poder ver la lista de préstamos de un cliente
+	ENTONCES: se devuelte una lista de prestamos
   
-* Escenario : Consulta lista de préstamos (NO OK)
-	DADO: 
-	CUANDO: 
-	ENTONCES: 
+* Escenario 12: Consulta lista de préstamos (NO OK)
+	DADO:  un usuario ha accedido al sistema.
+	CUANDO: quiero poder ver la lista de préstamos de un cliente
+	ENTONCES: se han introcido un cliente que no existe y devuelve un mensaje incorrecto
+  
+
+CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver la lista de cuentas de un cliente para entender su estado financiero."
+-----------------------------
+* Escenario 13: Consulta lista de cuentas  (Happy path)
+	DADO: un usuario ha accedido al sistema.
+	CUANDO: quiero poder ver la lista de cuentas de un cliente
+	ENTONCES: se devuelve una lista de cuentas de un cliente
+  
+* Escenario 14: Consulta lista de cuentas (NO OK)
+	DADO: un usuario ha accedido al sistema.
+	CUANDO: quiero poder ver la lista de cuentas de un cliente
+	ENTONCES: se han introcido un cliente que no existe y devuelve un mensaje incorrecto
+  
 
 
 CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver el detalle de un préstamo de un cliente para conocer su estado y evolución."
 -----------------------------
-* Escenario : Consulta detalle de préstamos (Happy path)
-	DADO: 
-	CUANDO: 
-	ENTONCES: 
+* Escenario 15: Consulta detalle de préstamos (Happy path)
+	DADO:  un usuario ha accedido al sistema.
+	CUANDO: ver el detalle de un préstamo de un cliente
+	ENTONCES: se devuelve el detalle del préstamo del cliente
   
-* Escenario : Consulta detalle de préstamos  (NO OK)
-	DADO: 
-	CUANDO: 
-	ENTONCES: 
+* Escenario 16: Consulta detalle de préstamos  (NO OK)
+	DADO:  un usuario ha accedido al sistema.
+	CUANDO: ver el detalle de un préstamo de un cliente
+	ENTONCES: se han introcido un cliente que no existe y devuelve un mensaje incorrecto
 
-
-CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver la lista de cuentas de un cliente para entender su estado financiero."
------------------------------
-* Escenario : Consulta lista de cuentas  (Happy path)
-	DADO: 
-	CUANDO: 
-	ENTONCES: 
-  
-* Escenario : Consulta lista de cuentas (NO OK)
-	DADO: 
-	CUANDO: 
-	ENTONCES: 
 
 
 CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver el detalle de una cuenta de un cliente para conocer su estado contable."
