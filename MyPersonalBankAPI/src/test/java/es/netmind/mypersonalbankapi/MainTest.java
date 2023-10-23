@@ -1,6 +1,8 @@
 package es.netmind.mypersonalbankapi;
 
 import es.netmind.mypersonalbankapi.controladores.ClientesController;
+import es.netmind.mypersonalbankapi.controladores.CuentasController;
+import es.netmind.mypersonalbankapi.controladores.PrestamosController;
 import es.netmind.mypersonalbankapi.exceptions.ClienteException;
 import es.netmind.mypersonalbankapi.modelos.clientes.Cliente;
 import es.netmind.mypersonalbankapi.modelos.clientes.Empresa;
@@ -493,7 +495,7 @@ public void modificarNuevosClientes(String argu)
         //GIVEN
 
         String[] args = argu.split(" ");
-        System.out.println("\nEscenario 9: "+args[0]+"; "+args[1]+"; "+args[2]+"; "+args[3]);
+        System.out.println("\nEscenario 10: "+args[0]+"; "+args[1]+"; "+args[2]+"; "+args[3]);
 
         final String code_esperado = "Saldo insuficiente";
         int argsLength = args.length;
@@ -520,4 +522,185 @@ public void modificarNuevosClientes(String argu)
         assertThat(code_esperado, is(code_real));
 
     }
+
+    //CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver la lista de préstamos de un cliente
+    // para entender su estado de deuda."
+    @DisplayName("Escenario 11: Como usuario del sistema, quiero poder ver la lista de préstamos de un cliente.")
+    @ParameterizedTest
+    @ValueSource(strings = {"clients 1 loans"})
+    public void veListaPrestamosUncliente(String texto) {
+        //GIVEN
+
+        String[] args = texto.split(" ");
+        String arg0 = args[0].toLowerCase();
+        String arg1 = args[1].toLowerCase();
+        String arg2 = null;
+
+        System.out.println("Escenario 11:"+args[0]+ " " +args[1]+ " " +args[2]);
+        int argsLength = args.length;
+        int uid = Integer.valueOf(args[1]);
+
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+
+        if (argsLength == 3) PrestamosController.mostrarLista(uid);
+
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+
+        System.out.println("Mensaje devuelto:" + outContent.toString());
+
+        assertThat(outContent.toString(),containsString("saldo=1000.0"));
+        assertThat(outContent.toString(),containsString("id=1"));
+        assertThat(outContent.toString(),containsString("monto=1000.0"));
+
+    }
+
+    @DisplayName("Escenario 12: Se ha introducido clienteque no existe y no ve la lista de préstamos de un cliente.")
+    @ParameterizedTest
+    @ValueSource(strings = {"clients 5 loans"})
+    public void veListaPrestamosUnclienteNOK(String texto) {
+        //GIVEN
+
+        String[] args = texto.split(" ");
+        String arg0 = args[0].toLowerCase();
+        String arg1 = args[1].toLowerCase();
+        String arg2 = null;
+
+        System.out.println("Escenario 12:"+args[0]+ " " +args[1]+ " " +args[2]);
+        int argsLength = args.length;
+        int uid = Integer.valueOf(args[1]);
+
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+
+        if (argsLength == 3) PrestamosController.mostrarLista(uid);
+
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+
+        System.out.println("Mensaje devuelto:" + outContent.toString());
+
+        assertThat(outContent.toString(),containsString("Oops ha habido un problema, inténtelo más tarde"));
+
+    }
+
+    //CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver la
+    // lista de cuentas de un cliente para entender su estado financiero."
+    @DisplayName("Escenario 13: Quiero poder ver la lista de cuentas de un cliente.")
+    @ParameterizedTest
+    @ValueSource(strings = {"clients 1 accounts"})
+    public void veListaCuentasUncliente(String texto) {
+        //GIVEN
+
+        String[] args = texto.split(" ");
+
+        System.out.println("Escenario 13:"+args[0]+ " " +args[1]+ " " +args[2]);
+        int argsLength = args.length;
+        int uid = Integer.valueOf(args[1]);
+
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+
+        if (argsLength == 3) CuentasController.mostrarLista(uid);
+
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+
+        System.out.println("Mensaje devuelto:" + outContent.toString());
+
+        assertThat(outContent.toString(),containsString("id=1"));
+        assertThat(outContent.toString(),containsString("saldo=100.0"));
+        assertThat(outContent.toString(),containsString("Cuenta{id=4"));
+
+    }
+
+    @DisplayName("Escenario 14: Se ha introducido cliente que no existe y no ve la lista de cuentas de un cliente.")
+    @ParameterizedTest
+    @ValueSource(strings = {"clients 5 accounts"})
+    public void veListaCuentasUnclienteNOK(String texto) {
+        //GIVEN
+
+        String[] args = texto.split(" ");
+        String arg0 = args[0].toLowerCase();
+        String arg1 = args[1].toLowerCase();
+        String arg2 = null;
+
+        System.out.println("Escenario 14:"+args[0]+ " " +args[1]+ " " +args[2]);
+        int argsLength = args.length;
+        int uid = Integer.valueOf(args[1]);
+
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+
+        if (argsLength == 3) CuentasController.mostrarLista(uid);
+
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+
+        System.out.println("Mensaje devuelto:" + outContent.toString());
+
+        assertThat(outContent.toString(),containsString("Cliente NO encontrado"));
+
+    }
+
+    //CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder ver el detalle de un
+    // préstamo de un cliente para conocer su estado y evolución."
+    @DisplayName("Escenario 15: Quiero poder ver detalle de un préstamo de un cliente")
+    @ParameterizedTest
+    @ValueSource(strings = {"clients 1 loans 1"})
+    public void veDetallePrestamo(String texto) {
+        //GIVEN
+
+        String[] args = texto.split(" ");
+
+        System.out.println("Escenario 15:"+args[0]+ " " +args[1]+ " " +args[2]+" " +args[3]);
+        int argsLength = args.length;
+        int uid = Integer.valueOf(args[1]);
+
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+
+        if (argsLength == 4) PrestamosController.mostrarDetalle(uid, Integer.valueOf(args[3]));
+
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+
+        System.out.println("Mensaje devuelto:" + outContent.toString());
+
+        assertThat(outContent.toString(),containsString("id=1"));
+        assertThat(outContent.toString(),containsString("fechaConcesion=2023-10-23"));
+        assertThat(outContent.toString(),containsString("monto=1000.0"));
+
+    }
+
+    @DisplayName("Escenario 16: Se ha introducido cliente que no existe y no ve el detalle del préstamo.")
+    @ParameterizedTest
+    @ValueSource(strings = {"clients 5 accounts"})
+    public void veDetallePrestamoNOK(String texto) {
+        //GIVEN
+
+        String[] args = texto.split(" ");
+        String arg0 = args[0].toLowerCase();
+        String arg1 = args[1].toLowerCase();
+        String arg2 = null;
+
+        System.out.println("Escenario 16:"+args[0]+ " " +args[1]+ " " +args[2] + args);
+        int argsLength = args.length;
+        int uid = Integer.valueOf(args[1]);
+
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+
+        if (argsLength == 4) PrestamosController.mostrarDetalle(uid, Integer.valueOf(args[3]));
+
+        System.setOut(originalOut);
+        System.setErr(originalErr);
+
+        System.out.println("Mensaje devuelto:" + outContent.toString());
+
+        assertThat(outContent.toString(),containsString("Cliente NO encontrado"));
+
+    }
+
 }
