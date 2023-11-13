@@ -6,6 +6,7 @@ import com.dxc.mypersonalbankapi.modelos.clientes.Personal;
 import com.dxc.mypersonalbankapi.properties.PropertyValues;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteDBRepository implements IClientesRepo {
@@ -19,8 +20,53 @@ public class ClienteDBRepository implements IClientesRepo {
 
 
     @Override
-    public List<Cliente> getAll() {
-        return null;
+    public List<Cliente> getAll() throws Exception {
+        List<Cliente> clientes = new ArrayList<>();
+
+        try (
+                Connection conn = DriverManager.getConnection(db_url);
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM cliente c");
+        ) {
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                if (clientes.getClass().getName().indexOf("Personal") >= 0) {
+                    clientes.add(
+                        new Personal(
+                                rs.getInt("id"),
+                                rs.getString("nombre"),
+                                rs.getString("email"),
+                                rs.getString("dirección"),
+                                rs.getDate("alta").toLocalDate(),
+                                rs.getBoolean("activo"),
+                                rs.getBoolean("moroso"),
+                                rs.getString("dni")
+                        )
+                    );
+                } else {
+                    clientes.add(
+                        new Empresa(
+                                rs.getInt("id"),
+                                rs.getString("nombre"),
+                                rs.getString("email"),
+                                rs.getString("dirección"),
+                                rs.getDate("alta").toLocalDate(),
+                                rs.getBoolean("activo"),
+                                rs.getBoolean("moroso"),
+                                rs.getString("cif"),
+                                rs.getString("unidades_de_negocio")
+                    );
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception(e);
+        }
+
+        return clientes;
     }
 
     @Override
