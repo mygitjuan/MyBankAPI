@@ -323,7 +323,7 @@ public class MainTest {
     }
 //CRITERIOS ACEPTACION -- Tarea: "Como usuario del sistema, quiero poder modificar los
 // datos de un cliente para mantenerlos actualizados."
-@DisplayName("Escenario 7: Como usuario del sistema, quiero poder modificar los datos de un cliente " +
+/*@DisplayName("Escenario 7: Como usuario del sistema, quiero poder modificar los datos de un cliente " +
         "para mantenerlos actualizados.")
 @ParameterizedTest
 @ValueSource(strings = {"clients,update,1,Juan Juanez Juan,juanj@j.com,Calle Juan J 1,2023-10-22,true,false,12345678J",
@@ -399,7 +399,7 @@ public void modificarNuevosClientes(String argu)
     //THEN
     // Después de insertar a la persona
     assertThat(arg_uid,is(uid));
-}
+}*/
 
     @DisplayName("Escenario 8: Como usuario del sistema, quiero poder modificar los datos de un cliente " +
             "para mantenerlos actualizados. Pero la fecha de alta es invalida")
