@@ -2,11 +2,15 @@ package com.dxc.mypersonalbankapi.modelos.clientes;
 
 import com.dxc.mypersonalbankapi.modelos.prestamos.Prestamo;
 import com.dxc.mypersonalbankapi.modelos.cuentas.Cuenta;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public abstract class Cliente {
     private Integer id;
     private String nombre;
@@ -15,8 +19,10 @@ public abstract class Cliente {
     private LocalDate alta;
     private boolean activo;
     private boolean moroso;
+
     private List<Cuenta> cuentas;
     private List<Prestamo> prestamos;
+
 
     /* CONSTRUCTOR */
 
@@ -28,6 +34,7 @@ public abstract class Cliente {
         this.alta = alta;
         this.activo = activo;
         this.moroso = moroso;
+
     }
 
     /* LOGICA IMPORTANTE */
@@ -120,7 +127,7 @@ public abstract class Cliente {
 
     }
 
-    /* GETTERS */
+    /* GETTERS
     public Integer getId() {
         return id;
     }
@@ -155,9 +162,10 @@ public abstract class Cliente {
 
     public List<Prestamo> getPrestamos() {
         return prestamos;
-    }
+    }*/
 
-    /* SETTERS */
+
+    /* SETTERS
 
     public void setId(Integer id) {
         this.id = id;
@@ -185,7 +193,7 @@ public abstract class Cliente {
 
     public void setMoroso(boolean moroso) {
         this.moroso = moroso;
-    }
+    }*/
 
     /* TOSTRING */
 
