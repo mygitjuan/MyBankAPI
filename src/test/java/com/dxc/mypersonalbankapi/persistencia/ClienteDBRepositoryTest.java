@@ -26,9 +26,8 @@ class ClienteDBRepositoryTest {
     @Test
     void getAll() throws Exception {
         List <Cliente> lc = repo.getAll();
-
-
-
+        assertNotNull(lc);
+        System.out.println("Lista Cliente:"+lc);
 
     }
 
