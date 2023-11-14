@@ -19,7 +19,7 @@ public class ClienteDBRepository implements IClientesRepo {
         db_url = props.getPropValues().getProperty("db_url");
     }
 
-//
+// modifico para commit
     @Override
     public List<Cliente> getAll() throws Exception {
         List<Cliente> clientes = new ArrayList<>();
