@@ -18,7 +18,7 @@ public class ClienteDBRepository implements IClientesRepo {
         db_url = props.getPropValues().getProperty("db_url");
     }
 
-
+//
     @Override
     public List<Cliente> getAll() throws Exception {
         List<Cliente> clientes = new ArrayList<>();
