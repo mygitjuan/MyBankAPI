@@ -33,12 +33,10 @@ public class ClienteDBRepository implements IClientesRepo {
 
             while (rs.next()) {
 
-                String dType = null;
-                dType = rs.getString("dtype");
-                System.out.println("dType:"+dType);
-                //if (clientes.getClass().getName().indexOf("Personal") >= 0) {
-                if (dType == "Personal") {
+                final String tipo_personal = "personal";
+                String dType = rs.getString("dtype").toLowerCase();
 
+                if (dType.contains(tipo_personal)) {
 
                     clientes.add(
                         new Personal(
