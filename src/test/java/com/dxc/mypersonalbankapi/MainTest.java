@@ -43,7 +43,7 @@ public class MainTest {
     String code_real = "";
 
     @BeforeEach
-    public void definicionesPrevias() {
+    public void definicionesPrevias() throws Exception {
         lista_clientes_esperada =clientesRepo.getAll();
     }
 
@@ -53,7 +53,7 @@ public class MainTest {
     @DisplayName("Escenario 1: Usuario accede al sistema y ve lista de clientes.")
     @ParameterizedTest
     @ValueSource(strings = {"clients list"})
-    public void usuarioAccedeSistemaVeListaClientes(String texto) {
+    public void usuarioAccedeSistemaVeListaClientes(String texto) throws Exception {
         //GIVEN
         // List<Cliente> lista_clientes_real =null;
         // List<Cliente> lista_clientes_esperada =clientesRepo.getAll();
@@ -93,7 +93,7 @@ public class MainTest {
     @DisplayName("Escenario 2: Usuario no accede al sistema por usar paramétros incorrectos")
     @ParameterizedTest
     @ValueSource(strings = {"ver lista clientes"})
-    public void usuarioNoAccedeSistemaParametrosincorrectos(String texto) {
+    public void usuarioNoAccedeSistemaParametrosincorrectos(String texto) throws Exception {
         //GIVEN
         // List<Cliente> lista_clientes_real =null;
         List <Cliente> lista_clientes_nula = null;

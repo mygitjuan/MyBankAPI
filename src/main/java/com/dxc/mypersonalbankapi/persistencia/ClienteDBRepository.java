@@ -5,6 +5,7 @@ import com.dxc.mypersonalbankapi.modelos.clientes.Empresa;
 import com.dxc.mypersonalbankapi.modelos.clientes.Personal;
 import com.dxc.mypersonalbankapi.properties.PropertyValues;
 
+import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +32,18 @@ public class ClienteDBRepository implements IClientesRepo {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                if (clientes.getClass().getName().indexOf("Personal") >= 0) {
+
+                final String tipo_personal = "personal";
+                String dType = rs.getString("dtype").toLowerCase();
+
+                if (dType.contains(tipo_personal)) {
+
                     clientes.add(
                         new Personal(
                                 rs.getInt("id"),
                                 rs.getString("nombre"),
                                 rs.getString("email"),
-                                rs.getString("dirección"),
+                                rs.getString("direccion"),
                                 rs.getDate("alta").toLocalDate(),
                                 rs.getBoolean("activo"),
                                 rs.getBoolean("moroso"),
@@ -45,17 +51,23 @@ public class ClienteDBRepository implements IClientesRepo {
                         )
                     );
                 } else {
+                    String[] row = new String[1];
+                    row[0] = rs.getString("unidades_de_negocio");
+
+
                     clientes.add(
                         new Empresa(
                                 rs.getInt("id"),
                                 rs.getString("nombre"),
                                 rs.getString("email"),
-                                rs.getString("dirección"),
+                                rs.getString("direccion"),
                                 rs.getDate("alta").toLocalDate(),
                                 rs.getBoolean("activo"),
                                 rs.getBoolean("moroso"),
                                 rs.getString("cif"),
-                                rs.getString("unidades_de_negocio")
+                                row
+                        )
+
                     );
                 }
 
