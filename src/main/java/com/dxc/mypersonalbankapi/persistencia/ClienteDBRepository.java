@@ -4,20 +4,18 @@ import com.dxc.mypersonalbankapi.modelos.clientes.Cliente;
 import com.dxc.mypersonalbankapi.modelos.clientes.Empresa;
 import com.dxc.mypersonalbankapi.modelos.clientes.Personal;
 import com.dxc.mypersonalbankapi.properties.PropertyValues;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class ClienteDBRepository implements IClientesRepo {
-    private static String db_url = null;
-    private static IClientesRepo instance;
-
-    public ClienteDBRepository() throws Exception {
-        PropertyValues props = new PropertyValues();
-        db_url = props.getPropValues().getProperty("db_url");
-    }
+    private String db_url;
 
 // modifico para commit
     @Override
@@ -140,6 +138,11 @@ public class ClienteDBRepository implements IClientesRepo {
 
     @Override
     public Cliente updateClient(Cliente cliente) throws Exception {
+        return null;
+    }
+
+    @Override
+    public String getdb_url() {
         return null;
     }
 }

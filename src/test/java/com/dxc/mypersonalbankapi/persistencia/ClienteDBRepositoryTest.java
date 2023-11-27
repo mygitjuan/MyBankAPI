@@ -1,8 +1,10 @@
 package com.dxc.mypersonalbankapi.persistencia;
 
+import com.dxc.mypersonalbankapi.config.SpringConfig;
 import com.dxc.mypersonalbankapi.modelos.clientes.Cliente;
 import com.dxc.mypersonalbankapi.modelos.clientes.Empresa;
 import com.dxc.mypersonalbankapi.modelos.clientes.Personal;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -16,16 +18,25 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {SpringConfig.class})
+
 class ClienteDBRepositoryTest {
 
+    @Autowired
     private IClientesRepo repo;
 
-    @BeforeEach
-    void setUp() throws Exception {
+    //@BeforeEach
+    //void setUp() throws Exception {
 //        repo = new UsuarioInMemoryRepository();
-        repo = new ClienteDBRepository();
+        //repo = new ClienteDBRepository();
 
 
+    //}
+    @Test
+    void testBeans() {
+        assertNotNull(repo);
+        System.out.println(repo.getdb_url());
     }
 
     @Test

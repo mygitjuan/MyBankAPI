@@ -14,5 +14,6 @@ public interface IClientesRepo {
     public boolean deleteClient(Cliente cliente) throws Exception;
 
     public Cliente updateClient(Cliente cliente) throws Exception;
+    public String getdb_url();
 
 }

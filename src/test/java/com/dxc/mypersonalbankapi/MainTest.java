@@ -28,7 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class MainTest {
-
     List<Cliente> lista_clientes_real =null;
     List<Cliente> lista_clientes_esperada = null;
     Cliente cliente_real = null;

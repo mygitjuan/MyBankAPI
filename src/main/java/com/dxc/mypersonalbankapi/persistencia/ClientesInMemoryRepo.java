@@ -83,4 +83,9 @@ public class ClientesInMemoryRepo implements IClientesRepo {
             throw new ClienteException("Cliente no existe", ErrorCode.NONEXISTINGCLIENT);
         } else throw new ClienteException("Cliente no válido", ErrorCode.INVALIDCLIENT);
     }
+
+    @Override
+    public String getdb_url() {
+        return null;
+    }
 }

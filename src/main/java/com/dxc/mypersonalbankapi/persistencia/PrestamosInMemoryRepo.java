@@ -4,12 +4,17 @@ import com.dxc.mypersonalbankapi.exceptions.PrestamoException;
 import com.dxc.mypersonalbankapi.modelos.clientes.Cliente;
 import com.dxc.mypersonalbankapi.modelos.prestamos.Prestamo;
 import com.dxc.mypersonalbankapi.exceptions.ErrorCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+@Getter
+@Setter
 
 public class PrestamosInMemoryRepo implements IPrestamosRepo {
+    private String db_url;
     private static PrestamosInMemoryRepo instance;
     private static List<Prestamo> prestamos;
     private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
@@ -30,7 +35,7 @@ public class PrestamosInMemoryRepo implements IPrestamosRepo {
         }
     }
 
-    private PrestamosInMemoryRepo() {
+    public PrestamosInMemoryRepo() {
     }
 
     public static PrestamosInMemoryRepo getInstance() {
@@ -110,6 +115,11 @@ public class PrestamosInMemoryRepo implements IPrestamosRepo {
             throw new PrestamoException("Prestamo NO encontrado para cliente", ErrorCode.NONEXISTINGLOAN);
         } else throw new PrestamoException("Prestamos NO encontrados para cliente", ErrorCode.NONEXISTINGLOAN);
 
+    }
+
+    @Override
+    public String getdb_url(String db_url) {
+        return null;
     }
 
 

@@ -17,5 +17,6 @@ public interface ICuentasRepo {
 
     public List<Cuenta> getAccountsByClient(Integer uid) throws Exception;
     public Cuenta getAccountsByClientAndId(Integer uid, Integer aid) throws Exception;
+    public String getdb_url(String dbUrl);
 
 }

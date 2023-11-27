@@ -6,12 +6,17 @@ import com.dxc.mypersonalbankapi.modelos.cuentas.Corriente;
 import com.dxc.mypersonalbankapi.modelos.cuentas.Cuenta;
 import com.dxc.mypersonalbankapi.exceptions.CuentaException;
 import com.dxc.mypersonalbankapi.exceptions.ErrorCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+@Getter
+@Setter
 
 public class CuentasInMemoryRepo implements ICuentasRepo {
+    private String db_url;
     private static CuentasInMemoryRepo instance;
     private static List<Cuenta> cuentas;
     private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
@@ -36,7 +41,7 @@ public class CuentasInMemoryRepo implements ICuentasRepo {
         }
     }
 
-    private CuentasInMemoryRepo() {
+    public CuentasInMemoryRepo() {
     }
 
     public static CuentasInMemoryRepo getInstance() {
@@ -119,6 +124,11 @@ public class CuentasInMemoryRepo implements ICuentasRepo {
             throw new CuentaException("Cuenta NO encontrada para cliente", ErrorCode.NONEXISTINGACCOUNT);
         } else throw new CuentaException("Cuentas NO encontradas para cliente", ErrorCode.NONEXISTINGACCOUNT);
 
+    }
+
+    @Override
+    public String getdb_url(String db_url) {
+        return null;
     }
 
 

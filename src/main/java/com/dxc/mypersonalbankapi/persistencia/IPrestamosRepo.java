@@ -19,4 +19,6 @@ public interface IPrestamosRepo {
 
     public Prestamo getLoansByClientAndId(Integer uid, Integer aid) throws Exception;
 
+    public String getdb_url(String dbUrl);
+
 }
