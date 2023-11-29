@@ -5,23 +5,26 @@ import com.dxc.mypersonalbankapi.persistencia.IClientesRepo;
 import com.dxc.mypersonalbankapi.persistencia.ICuentasRepo;
 import com.dxc.mypersonalbankapi.persistencia.IPrestamosRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
 
 @Configuration
 public class ControllerConfig {
-     @Autowired
-     private IClientesRepo clientesControl;
 
-     @Autowired
-     private static ICuentasRepo cuentasControl;
-     @Autowired
-     private static IPrestamosRepo prestamosControl;
-
+     @Value("${uid_cl}")
+     Integer uid;
      @Bean
-     public ClientesController MostrarLista() {
-
-        return (ClientesController) clientesControl;
+     public ClientesController mostrarListaClientes() throws Exception {
+          ClientesController cc = new ClientesController();
+          cc.mostrarLista();
+          return cc;
      }
+
+     /*@Bean
+     public ClientesController mostrarDetalle() throws Exception {
+          ClientesController cc = new ClientesController();
+          cc.mostrarDetalle(uid);
+          return cc;
+     }*/
 }
 
