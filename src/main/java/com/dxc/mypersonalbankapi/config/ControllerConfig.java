@@ -14,17 +14,12 @@ public class ControllerConfig {
      @Value("${uid_cl}")
      Integer uid;
      @Bean
-     public ClientesController mostrarListaClientes() throws Exception {
+     public ClientesController mostrarClController() throws Exception {
           ClientesController cc = new ClientesController();
           cc.mostrarLista();
+          cc.mostrarDetalle(uid);
           return cc;
      }
 
-     /*@Bean
-     public ClientesController mostrarDetalle() throws Exception {
-          ClientesController cc = new ClientesController();
-          cc.mostrarDetalle(uid);
-          return cc;
-     }*/
 }
 
