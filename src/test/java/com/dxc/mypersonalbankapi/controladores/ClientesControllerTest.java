@@ -15,12 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class ClientesControllerTest {
 
     @Autowired
-    private IClientesRepo clientesControl;
+    private ClientesController clientesControl;
 
     @Test
-    void mostrarLista() {
+    void mostrarLista() throws Exception {
         assertNotNull(clientesControl);
-        System.out.println("Clientes: " + clientesControl.toString());
+        System.out.println(clientesControl.getClientesRepo());
+        clientesControl.mostrarLista();
     }
 
     @Test

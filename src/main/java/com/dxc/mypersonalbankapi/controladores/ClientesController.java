@@ -6,6 +6,9 @@ import com.dxc.mypersonalbankapi.persistencia.*;
 import com.dxc.mypersonalbankapi.utils.ClientesUtils;
 import com.dxc.mypersonalbankapi.exceptions.ClienteException;
 import com.dxc.mypersonalbankapi.persistencia.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -13,9 +16,13 @@ import java.util.List;
 
 public class ClientesController {
 
-    private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
-    private static ICuentasRepo cuentasRepo = CuentasInMemoryRepo.getInstance();
-    private static IPrestamosRepo prestamosRepo = PrestamosInMemoryRepo.getInstance();
+    //private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
+    @Setter @Getter
+    private static IClientesRepo clientesRepo;
+    @Setter @Getter
+    private static ICuentasRepo cuentasRepo;
+    @Setter @Getter
+    private static IPrestamosRepo prestamosRepo;
 
     public static void mostrarLista() throws Exception {
         System.out.println("\nLista de clientes:");

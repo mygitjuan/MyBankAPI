@@ -7,12 +7,18 @@ import com.dxc.mypersonalbankapi.persistencia.ClientesInMemoryRepo;
 import com.dxc.mypersonalbankapi.persistencia.IClientesRepo;
 import com.dxc.mypersonalbankapi.persistencia.IPrestamosRepo;
 import com.dxc.mypersonalbankapi.persistencia.PrestamosInMemoryRepo;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 public class PrestamosController {
-    private static IPrestamosRepo prestamosRepo = PrestamosInMemoryRepo.getInstance();
-    private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
+    //private static IPrestamosRepo prestamosRepo = PrestamosInMemoryRepo.getInstance();
+    //private static IClientesRepo clientesRepo = ClientesInMemoryRepo.getInstance();
+    @Setter @Getter
+    private static IClientesRepo clientesRepo;
+    @Setter @Getter
+    private static IPrestamosRepo prestamosRepo;
 
     public static void mostrarLista(Integer uid) {
         System.out.println("\nLista de prestamos del cliente: " + uid);
