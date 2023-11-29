@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CuentasControllerTest {
+class ClientesControllerTest {
 
     @Test
     void mostrarLista() {
@@ -15,14 +15,18 @@ class CuentasControllerTest {
     }
 
     @Test
-    void eliminar() {
-    }
-
-    @Test
     void add() {
     }
 
     @Test
+    void eliminar() {
+    }
+
+    @Test
     void actualizar() {
+    }
+
+    @Test
+    void evaluarPrestamo() {
     }
 }
