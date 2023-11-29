@@ -143,6 +143,7 @@ public class ClienteDBRepository implements IClientesRepo {
 
     @Override
     public String getdb_url() {
-        return null;
+        /*return null;--> ESto devuelve error en el Test*/
+        return this.db_url;
     }
 }
