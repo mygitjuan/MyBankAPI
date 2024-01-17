@@ -6,6 +6,7 @@ import com.dxc.mypersonalbankapi.modelos.clientes.Empresa;
 import com.dxc.mypersonalbankapi.modelos.clientes.Personal;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {SpringConfig.class})
 
+@EnableAutoConfiguration
 class ClienteDBRepositoryTest {
 
     @Autowired
