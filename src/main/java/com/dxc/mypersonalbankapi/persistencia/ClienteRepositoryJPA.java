@@ -18,6 +18,8 @@ import java.util.List;
 @Getter
 @Setter
 @Repository
+
+
 public class ClienteRepositoryJPA implements IClientesRepo {
     private String db_url;
 
