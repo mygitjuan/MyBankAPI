@@ -1,9 +1,7 @@
 package com.dxc.mypersonalbankapi.modelos.cuentas;
 
-import javax.persistence.Entity;
 import java.time.LocalDate;
 
-//@Entity
 public class Cheque {
     private Integer id;
     private Double importe;
