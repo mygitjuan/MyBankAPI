@@ -1,23 +1,47 @@
 package com.dxc.mypersonalbankapi.modelos.prestamos;
 
+import com.dxc.mypersonalbankapi.modelos.clientes.Cliente;
+import lombok.ToString;
+
 import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.util.List;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "prestamo")
 public class Prestamo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Integer id;
+    @Column(name="fecha_concesion")
     private LocalDate fechaConcesion;
+    @Column(name="monto")
     private Double monto;
+    @Column(name="saldo")
     private Double saldo;
+    @Column(name="mensualidad")
     private Double mensualidad;
+    @Column(name="anios")
     private Integer anios;
+    @Transient
     private List<Pago> pagos;
+    @Transient
     private List<Mora> moras;
+    @Column(name="interes")
     private Integer interes;
+    @Column(name="interes_mora")
     private Integer interesMora;
+    @Column(name="moroso")
     private boolean moroso;
+    @Column(name="liquidado")
     private boolean liquidado;
+
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "cliente_id")
+    @ToString.Exclude
+    private Cliente cliente;
 
     /* CONSTRUCTOR */
     public Prestamo(Integer id, LocalDate fechaConcesion, Double monto, Double saldo, Integer interes, Integer interesMora, boolean moroso, boolean liquidado, Integer anios) {

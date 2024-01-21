@@ -2,27 +2,45 @@ package com.dxc.mypersonalbankapi.modelos.clientes;
 
 import com.dxc.mypersonalbankapi.modelos.prestamos.Prestamo;
 import com.dxc.mypersonalbankapi.modelos.cuentas.Cuenta;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
+@Table(name = "cliente")
 public abstract class Cliente {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Integer id;
+    @Column(name="nombre")
     private String nombre;
+    @Column(name="email")
     private String email;
+    @Column(name="direccion")
     private String direccion;
+    @Column(name="alta")
     private LocalDate alta;
+    @Column(name="activo")
     private boolean activo;
+    @Column(name="moroso")
     private boolean moroso;
 
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
     private List<Cuenta> cuentas;
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
     private List<Prestamo> prestamos;
 
 

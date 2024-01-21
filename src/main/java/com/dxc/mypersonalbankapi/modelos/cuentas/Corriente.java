@@ -1,13 +1,16 @@
 package com.dxc.mypersonalbankapi.modelos.cuentas;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Entity
+@Entity
 public class Corriente extends Cuenta {
+    @Transient
     private List<Cheque> chequesIngresados;
+    @Transient
     private List<Cheque> chequesEmitidos;
 
     public Corriente(Integer id, LocalDate fechaCreacion, Double saldo, Double interes, Double comision) {

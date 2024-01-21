@@ -4,7 +4,13 @@ import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.util.Arrays;
 
-//@Entity
+import lombok.*;
+
+@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Entity
 public class Empresa extends Cliente {
     private String cif;
     private String[] unidadesNegocio;

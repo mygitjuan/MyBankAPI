@@ -3,7 +3,14 @@ package com.dxc.mypersonalbankapi.modelos.clientes;
 import javax.persistence.Entity;
 import java.time.LocalDate;
 
-//@Entity
+import lombok.*;
+
+
+@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Entity
 public class Personal extends Cliente {
     private String dni;
 
