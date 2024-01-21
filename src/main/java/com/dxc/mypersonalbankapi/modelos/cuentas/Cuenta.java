@@ -1,9 +1,11 @@
 package com.dxc.mypersonalbankapi.modelos.cuentas;
 
+import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public abstract class Cuenta {
     private Integer id;
     private LocalDate fechaCreacion;

@@ -5,12 +5,14 @@ import com.dxc.mypersonalbankapi.modelos.cuentas.Cuenta;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@Entity
 public abstract class Cliente {
     private Integer id;
     private String nombre;

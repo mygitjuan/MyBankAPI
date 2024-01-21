@@ -1,8 +1,10 @@
 package com.dxc.mypersonalbankapi.modelos.clientes;
 
+import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+//@Entity
 public class ClientesFactory {
     public static Cliente create(String type, HashMap params) throws Exception {
         switch (type) {

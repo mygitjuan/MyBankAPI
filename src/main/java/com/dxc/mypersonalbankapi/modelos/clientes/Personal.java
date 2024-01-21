@@ -1,7 +1,9 @@
 package com.dxc.mypersonalbankapi.modelos.clientes;
 
+import javax.persistence.Entity;
 import java.time.LocalDate;
 
+//@Entity
 public class Personal extends Cliente {
     private String dni;
 
